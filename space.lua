@@ -5,6 +5,10 @@ space.stars = require("stars")
 space.mode = "search" --search, listen, process
 space.selectedStar = nil
 space.selectedFreq = nil -- nil, "A", "B", "C", "D"
+space.playSignal = false
+space.playingSignal = false
+space.signalTime = 0 -- Used for timing signals
+space.sigStep = 1
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -50,6 +54,33 @@ local function loadWorld(game)
         --color
         color = {0.50,0.00,0.00},
         hoverColor = {0.40,0.00,0.00},
+        holdColor = {0.066, 0.047, 0.152},
+        --border
+        border = {
+        color = {0.0,0.0,0.0},
+        hoverColor = {0.0,0.0,0.0},
+        holdColor = {0.031, 0.349, 0.090},
+        size = 5
+        },
+        --text
+        text = {
+        color = {0.9, 0.9, 0.9},
+        hoverColor = {0.9, 0.9, 0.9},
+        holdColor = {0.9, 0, 0},
+        font = game.exitBtnFont,
+        align = "center",
+        offset = {
+            x = 0,
+            y = -8,
+        }
+        },
+    })
+    btnPlayStyle = uare.newStyle({
+        width = 50,
+        height = 50,
+        --color
+        color = {0.30,0.30,0.30},
+        hoverColor = {0.10,0.10,0.10},
         holdColor = {0.066, 0.047, 0.152},
         --border
         border = {
@@ -130,8 +161,20 @@ local function loadWorld(game)
             space.mode = "search"
             space.selectedFreq = nil
             space.selectedStar = nil
+            space.playSignal = false
+            space.playingSignal = false
         end
     }):style(btnExitStyle)
+    play = uare.new({
+        text = {
+        display = ""
+        },
+        x = 50,
+        y = 510,
+        onClick = function() 
+            space.playSignal = true
+        end
+    }):style(btnPlayStyle)
 end
 space.load = loadWorld
 
@@ -144,6 +187,8 @@ local function listenUI()
     freq2.active = true
     freq3.active = true
     freq4.active = true
+    play.draw = false
+    play.active = false
 end
 
 local function processUI()
@@ -155,6 +200,56 @@ local function processUI()
     freq2.active = false
     freq3.active = false
     freq4.active = false
+    play.draw = true 
+    play.active = true
+end
+
+local function updateSignal(dt)
+    local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
+    local signalStep = 2
+    space.signalTime = space.signalTime + dt
+    if space.signalTime < 0.5 then 
+        signalStep = 1
+    elseif space.signalTime < 1.0 then 
+        signalStep = 2
+    elseif space.signalTime < 1.5 then 
+        signalStep = 3
+    elseif space.signalTime < 2.0 then 
+        signalStep = 4
+    elseif space.signalTime < 2.5 then 
+        signalStep = 5
+    elseif space.signalTime < 3.0 then 
+        signalStep = 6
+    elseif space.signalTime < 3.5 then 
+        signalStep = 7
+    elseif space.signalTime < 4.0 then 
+        signalStep = 8
+    elseif space.signalTime < 4.5 then 
+        signalStep = 9
+    elseif space.signalTime < 5.0 then 
+        signalStep = 10
+    else 
+        space.signalTime = 0
+        signalStep = 2
+    end
+    space.sigStep = signalStep
+end
+
+local function drawSignalLine(signal, x, y)
+    local xSegment = 20
+    local yScale = 10
+    love.graphics.setLineWidth(0.2)
+    love.graphics.setColor(0.0, 0.9, 0.0)
+    love.graphics.line(x, signal[1] * -yScale + y,
+        x + xSegment * 1, signal[2] * -yScale + y,
+        x + xSegment * 2, signal[3] * -yScale + y,
+        x + xSegment * 3, signal[4] * -yScale + y,
+        x + xSegment * 4, signal[5] * -yScale + y,
+        x + xSegment * 5, signal[6] * -yScale + y,
+        x + xSegment * 6, signal[7] * -yScale + y,
+        x + xSegment * 7, signal[8] * -yScale + y,
+        x + xSegment * 8, signal[9] * -yScale + y,
+        x + xSegment * 9, signal[10] * -yScale + y)      
 end
 
 local function updateWorld(dt, game)
@@ -180,6 +275,14 @@ local function updateWorld(dt, game)
     elseif space.mode == "listen" then 
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
     elseif space.mode == "process" then
+        if space.playSignal then 
+            if not space.playingSignal then 
+                space.signalTime = 0
+                space.playingSignal = true
+            end
+            updateSignal(dt)
+        end
+
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
     end
 end
@@ -206,12 +309,13 @@ local function drawWorld(game)
         local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
         love.graphics.setColor(0.9, 0.9, 0.9)
         if signal ~= nil then  
-            love.graphics.print(signal, 430, 510)
+            love.graphics.print(signal[space.sigStep], 430, 510)
+            love.graphics.print(space.signalTime, 430, 530)
+            love.graphics.print(space.sigStep, 430, 550)
+            drawSignalLine(signal, 200, 630)
         else 
             love.graphics.print("No signal", 430, 510)
         end
-
-        freq1.visible = false
         uare.draw()
     end
 end

@@ -1,14 +1,17 @@
 local signal = {}
 
 local function createNoise()
-    return "Cat"
+    math.random(0, 10)
+    return {math.random(0, 10), math.random(0, 10), math.random(0, 10), math.random(0, 10),
+    math.random(0, 10), math.random(0, 10), math.random(0, 10), math.random(0, 10),
+    math.random(0, 10), math.random(0, 10)}
 end
 
 -- Create either an empty signal or noise signal for all 4 channels
 local function createRandomSignals()
     local signals = {}
-    local choice = math.random(0, 1000000)
-    if choice > 60 then
+    local choice = math.random(0, 100)
+    if choice > 0 then
         signals.A = createNoise()
     end
     choice = math.random(0, 100)

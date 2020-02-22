@@ -5,11 +5,14 @@ local Utils = require("utils")
 local signal = require("signals")
 
 local function makeDiamond(width, height)
+    local randPercent = 0.2
+    local w = math.random(width - (width * randPercent), width + (width * randPercent))
+    local h = math.random(height - (height * randPercent), height + (height * randPercent))
     local poly = {
-    0 - (width/2), 0,
-    0, 0 - (height/2),
-    0 + (width/2), 0,
-    0, 0 + (height/2),
+    0 - (w/2), 0,
+    0, 0 - (h/2),
+    0 + (w/2), 0,
+    0, 0 + (h/2),
     }
     return poly
 end
