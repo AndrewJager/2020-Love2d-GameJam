@@ -13,6 +13,7 @@ local space = require("space")
 function love.load()
     love.window.setTitle("Unnamed")
     love.window.setMode(game.width, 700)
+    math.randomseed(os.time())
     space.load(game)
 end
 

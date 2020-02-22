@@ -4,6 +4,7 @@ local space = {}
 space.stars = require("stars")
 space.mode = "search" --search, listen, process
 space.selectedStar = nil
+space.selectedFreq = nil -- nil, "A", "B", "C", "D"
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -78,7 +79,8 @@ local function loadWorld(game)
         x = 425,
         y = 545,
         onClick = function() 
-            space.mode = "search"
+            space.mode = "process"
+            space.selectedFreq = "A"
         end
         
     }):style(btnProcessStyle)
@@ -89,7 +91,8 @@ local function loadWorld(game)
         x = 425,
         y = 615,
         onClick = function() 
-            space.mode = "search"
+            space.mode = "process"
+            space.selectedFreq = "B"
         end
         
     }):style(btnProcessStyle)
@@ -100,7 +103,8 @@ local function loadWorld(game)
         x = 635,
         y = 545,
         onClick = function() 
-            space.mode = "search"
+            space.mode = "process"
+            space.selectedFreq = "C"
         end
         
     }):style(btnProcessStyle)
@@ -111,7 +115,8 @@ local function loadWorld(game)
         x = 635,
         y = 615,
         onClick = function() 
-            space.mode = "search"
+            space.mode = "process"
+            space.selectedFreq = "D"
         end
         
     }):style(btnProcessStyle)
@@ -123,10 +128,34 @@ local function loadWorld(game)
         y = 510,
         onClick = function() 
             space.mode = "search"
+            space.selectedFreq = nil
+            space.selectedStar = nil
         end
     }):style(btnExitStyle)
 end
 space.load = loadWorld
+
+local function listenUI()
+    freq1.draw = true
+    freq2.draw = true
+    freq3.draw = true
+    freq4.draw = true
+    freq1.active = true
+    freq2.active = true
+    freq3.active = true
+    freq4.active = true
+end
+
+local function processUI()
+    freq1.draw = false
+    freq2.draw = false
+    freq3.draw = false
+    freq4.draw = false
+    freq1.active = false
+    freq2.active = false
+    freq3.active = false
+    freq4.active = false
+end
 
 local function updateWorld(dt, game)
     if space.mode == "search" then
@@ -150,21 +179,39 @@ local function updateWorld(dt, game)
         space.stars.update(dt, game, space, ship, move)
     elseif space.mode == "listen" then 
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
+    elseif space.mode == "process" then
+        uare.update(dt, love.mouse.getX(), love.mouse.getY())
     end
 end
 space.update = updateWorld
 
 local function drawWorld(game)
     love.graphics.setFont(game.textFont)
+    love.graphics.setColor(0.95, 0.95, 0.95)
     love.graphics.print(ship.angle, 10, 10)
     space.stars.draw(game, space, ship)
 
     if space.mode == "listen" then
+        listenUI()
         love.graphics.setColor(0.2, 0.2, 0.2)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9, 0.9, 0.9)
         love.graphics.print("Choose frequency to listen on", 430, 510)
         love.graphics.print(space.selectedStar.name, 30, 510)
+        uare.draw()
+    elseif space.mode == "process" then 
+        processUI()
+        love.graphics.setColor(0.2, 0.2, 0.2)
+        love.graphics.rectangle("fill", 15, 500, 850, 185)
+        local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
+        love.graphics.setColor(0.9, 0.9, 0.9)
+        if signal ~= nil then  
+            love.graphics.print(signal, 430, 510)
+        else 
+            love.graphics.print("No signal", 430, 510)
+        end
+
+        freq1.visible = false
         uare.draw()
     end
 end

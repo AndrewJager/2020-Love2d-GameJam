@@ -2,6 +2,7 @@
 local stars = {}
 
 local Utils = require("utils")
+local signal = require("signals")
 
 local function makeDiamond(width, height)
     local poly = {
@@ -20,8 +21,9 @@ local function addStar(name, x, y)
         points={x, y},
         height=height,
         width=width,
-        color={0.9, 0.9, 0.9},
-        shape=makeDiamond(width, height)})
+        color={0.1, 0.1, 0.9},
+        shape=makeDiamond(width, height),
+        signals=signal.createRandomSignals()})
 end
 
 local function load()
@@ -86,13 +88,14 @@ local function draw(game, space, ship)
     for i = 1, #stars do 
         point = starDrawPoint(stars[i], game.threeSixtyToWidth, ship)
         poly = starDrawPoly(stars[i], point)
-        -- love.graphics.points(point)
+        love.graphics.setColor(stars[i].color[1], stars[i].color[2], stars[i].color[3])
         love.graphics.polygon("fill", poly)
 
         if space.mode == "search" then
             if Utils.inRange(x, point[1] - showDistance, point[1] + showDistance) 
             and Utils.inRange(y, point[2] - showDistance, point[2] + showDistance) then 
                 love.graphics.setLineWidth(0.2)
+                love.graphics.setColor(0.95, 0.95, 0.95)
                 love.graphics.rectangle("line", point[1] - showDistance / 2, point[2] - showDistance / 2, showDistance, showDistance)
                 if love.mouse.isDown(1) then
                     space.selectedStar = stars[i]
@@ -103,5 +106,18 @@ local function draw(game, space, ship)
     end
 end
 stars.draw = draw 
+
+local function getSelectedSignal(star, sig)
+    if sig == "A" then 
+        return star.signals.A
+    elseif sig == "B" then 
+        return star.signals.B 
+    elseif sig == "C" then 
+        return star.signals.C 
+    elseif sig == "D" then 
+        return star.signals.D 
+    end
+end
+stars.getSelectedSignal = getSelectedSignal
 
 return stars
