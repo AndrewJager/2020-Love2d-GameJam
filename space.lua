@@ -296,6 +296,37 @@ local function drawStarInfo(star)
     love.graphics.print("Distance: "..star.width.." light years", 140, 510)
 end
 
+local function fovPoly(x, y)
+    local width = 40
+    local height = 120
+    local poly = {x, y,
+        x - width, y + height,
+        x + width, y + height,
+    }
+    return poly 
+end
+
+local function drawShip()
+    love.graphics.setColor(0.0, 0.9, 0.0)
+    love.graphics.rectangle("line", 1000, 500, 150, 180)
+    love.graphics.setColor(0.3, 0.3, 0.3)
+    love.graphics.rectangle('fill', 1065, 540, 20, 80)
+    love.graphics.rectangle('fill', 1045, 560, 60, 5)
+    love.graphics.rectangle('fill', 1045, 600, 60, 5)
+    love.graphics.setColor(0.1, 0.1, 0.1)
+    love.graphics.polygon('fill', {1045, 520, 1045, 650, 1010, 640})
+    love.graphics.polygon('fill', {1105, 520, 1105, 650, 1140, 640})
+
+    local x = 1075
+    local y = 550
+    love.graphics.setColor(0.8, 0.0, 0.0, 0.5)
+    love.graphics.translate(x, y)
+    love.graphics.rotate(math.rad(ship.angle))   
+    love.graphics.polygon('fill', fovPoly(0, 0))
+    love.graphics.rotate(math.rad(-ship.angle))
+    love.graphics.translate(-x, -y)
+end
+
 local function updateWorld(dt, game)
     if space.mode == "search" then
         local move = "none"
@@ -337,6 +368,7 @@ local function drawWorld(game)
     love.graphics.setColor(0.95, 0.95, 0.95)
     love.graphics.print(ship.angle, 10, 10)
     space.stars.draw(game, space, ship)
+    drawShip()
 
     if space.mode == "listen" then
         listenUI()
