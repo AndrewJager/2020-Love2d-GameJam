@@ -21,6 +21,11 @@ ship.fov = 180
 
 space.ship = ship
 
+local toneA = love.audio.newSource("audio/tone1.mp3", "static")
+local toneB = love.audio.newSource("audio/tone2.mp3", "static")
+local toneC = love.audio.newSource("audio/tone3.mp3", "static")
+local toneD = love.audio.newSource("audio/tone4.mp3", "static")
+
 local function loadWorld(game)
     ship.fovToView = 360 / ship.fov
     space.stars.load()
@@ -112,6 +117,28 @@ local function updateSignal(dt)
         signalStep = 2
     end
     space.sigStep = signalStep
+
+    if space.selectedFreq == "A" then
+        if not toneA:isPlaying() then
+            toneA:setVolume(signal[signalStep] / 10) 
+            toneA:play()
+        end
+    elseif space.selectedFreq == "B" then 
+        if not toneB:isPlaying() then
+            toneB:setVolume(signal[signalStep] / 10) 
+            toneB:play()
+        end
+    elseif space.selectedFreq == "C" then 
+        if not toneC:isPlaying() then
+            toneC:setVolume(signal[signalStep] / 10) 
+            toneC:play()
+        end
+    elseif space.selectedFreq == "D" then 
+        if not toneD:isPlaying() then
+            toneD:setVolume(signal[signalStep] / 10) 
+            toneD:play()
+        end
+    end
 end
 
 local function drawSignalLine(signal, x, y)
