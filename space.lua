@@ -9,6 +9,7 @@ space.playSignal = false
 space.playingSignal = false
 space.signalTime = 0 -- Used for timing signals
 space.sigStep = 1
+space.showComments = false
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -78,6 +79,60 @@ local function loadWorld(game)
     btnPlayStyle = uare.newStyle({
         width = 50,
         height = 50,
+        --color
+        color = {0.30,0.30,0.30},
+        hoverColor = {0.10,0.10,0.10},
+        holdColor = {0.066, 0.047, 0.152},
+        --border
+        border = {
+        color = {0.0,0.0,0.0},
+        hoverColor = {0.0,0.0,0.0},
+        holdColor = {0.031, 0.349, 0.090},
+        size = 5
+        },
+        --text
+        text = {
+        color = {0.9, 0.9, 0.9},
+        hoverColor = {0.9, 0.9, 0.9},
+        holdColor = {0.9, 0, 0},
+        font = game.exitBtnFont,
+        align = "center",
+        offset = {
+            x = 0,
+            y = -8,
+        }
+        },
+    })
+    btnSendStyle = uare.newStyle({
+        width = 250,
+        height = 50,
+        --color
+        color = {0.00,0.82,0.08},
+        hoverColor = {0.00,0.62,0.08},
+        holdColor = {0.066, 0.047, 0.152},
+        --border
+        border = {
+        color = {0.0,0.0,0.0},
+        hoverColor = {0.0,0.0,0.0},
+        holdColor = {0.031, 0.349, 0.090},
+        size = 5
+        },
+        --text
+        text = {
+        color = {0.9, 0.9, 0.9},
+        hoverColor = {0.9, 0.9, 0.9},
+        holdColor = {0.9, 0, 0},
+        font = game.exitBtnFont,
+        align = "center",
+        offset = {
+            x = 0,
+            y = -8,
+        }
+        },
+    })
+    btnCommentStyle = uare.newStyle({
+        width = 400,
+        height = 30,
         --color
         color = {0.30,0.30,0.30},
         hoverColor = {0.10,0.10,0.10},
@@ -187,6 +242,46 @@ local function loadWorld(game)
             space.sigStep = 1
         end
     }):style(btnPlayStyle)
+    send = uare.new({
+        text = {
+        display = "Send to Mission Control"
+        },
+        x = 480,
+        y = 510,
+        onClick = function() 
+            space.showComments = true
+        end
+    }):style(btnSendStyle)
+    comment1 = uare.new({
+        text = {
+        display = "Comment 1"
+        },
+        x = 460,
+        y = 550,
+        onClick = function() 
+
+        end
+    }):style(btnCommentStyle)
+    comment2 = uare.new({
+        text = {
+        display = "Comment 2"
+        },
+        x = 460,
+        y = 590,
+        onClick = function() 
+
+        end
+    }):style(btnCommentStyle)
+    comment3 = uare.new({
+        text = {
+        display = "Comment 3"
+        },
+        x = 460,
+        y = 630,
+        onClick = function() 
+
+        end
+    }):style(btnCommentStyle)
 end
 space.load = loadWorld
 
@@ -203,6 +298,14 @@ local function hideUI() -- Hide all UI buttons
     play.active = false
     stop.draw = false
     stop.active = false
+    send.draw = false
+    send.active = false
+    comment1.draw = false
+    comment1.active = false
+    comment2.draw = false
+    comment2.active = false
+    comment3.draw = false
+    comment3.active = false
 end
 
 local function listenUI()
@@ -223,6 +326,18 @@ local function processUI()
     play.active = true
     stop.draw = true 
     stop.active = true
+    send.draw = true
+    send.active = true
+    if space.showComments then 
+        send.draw = false
+        send.active = false
+        comment1.draw = true 
+        comment1.active = true
+        comment2.draw = true
+        comment2.active = true 
+        comment3.draw = true 
+        comment3.active = true
+    end
 end
 
 local function updateSignal(dt)
@@ -308,6 +423,7 @@ end
 
 local function drawShip()
     love.graphics.setColor(0.0, 0.9, 0.0)
+    love.graphics.setLineWidth(0.1)
     love.graphics.rectangle("line", 1000, 500, 150, 180)
     love.graphics.setColor(0.3, 0.3, 0.3)
     love.graphics.rectangle('fill', 1065, 540, 20, 80)
@@ -391,6 +507,13 @@ local function drawWorld(game)
             love.graphics.print("No signal", 430, 510)
         end
         drawStarPortrait(space.selectedStar)
+        if space.showComments then 
+            love.graphics.setFont(game.textFontSmall)
+            love.graphics.print("Choose a comment to send with the signal"..signal.comments[1], 480, 510)
+            comment1.text.display = signal.comments[1]
+            comment2.text.display = signal.comments[2]
+            comment3.text.display = signal.comments[3]
+        end
         uare.draw()
     end
 end

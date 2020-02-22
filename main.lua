@@ -7,6 +7,7 @@ game.threeSixtyToWidth = game.width / 360
 game.btnFont = love.graphics.newFont(24)
 game.exitBtnFont = love.graphics.newFont(12)
 game.textFont = love.graphics.newFont(18)
+game.textFontSmall = love.graphics.newFont(12)
 
 local space = require("space")
 
