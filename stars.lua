@@ -1,5 +1,4 @@
 
-local Utils = require("utils")
 
 local stars = {}
 stars.points = {}
@@ -7,6 +6,7 @@ stars.points = {}
 local function load()
     table.insert(stars.points, {180, 450})
     table.insert(stars.points, {110, 150})
+    table.insert(stars.points, {180, 250})
 end
 stars.load = load
 
@@ -24,7 +24,7 @@ local function updateStars(stars, amt)
     end
 end
 
-local function update(dt, ship, move)
+local function update(dt, game, ship, move)
     local amt = 0
     if move == "right" then 
         amt = dt * ship.speed 
@@ -35,11 +35,19 @@ local function update(dt, ship, move)
 end
 stars.update = update
 
-local function draw(ship)
+local function starDrawPoint(star, rotToWidth, ship)
+    result = {star[1], star[2]}
+    result[1] = result[1] * rotToWidth
+    result[1] = result[1] * ship.fovToView
+    result[1] = result[1] - (ship.fov * rotToWidth)
+    return result
+end
+
+local function draw(game, ship)
     love.graphics.setColor(1,1,1)
     local points = stars.points
     for i = 1, #points do 
-        love.graphics.points(stars.points[i])
+        love.graphics.points(starDrawPoint(stars.points[i], game.threeSixtyToWidth, ship))
     end
 end
 stars.draw = draw 
