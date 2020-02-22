@@ -169,8 +169,8 @@ local function loadWorld(game)
         text = {
         display = "Play"
         },
-        x = 50,
-        y = 510,
+        x = 400,
+        y = 525,
         onClick = function() 
             space.playSignal = true
         end
@@ -179,8 +179,8 @@ local function loadWorld(game)
         text = {
         display = "Stop"
         },
-        x = 50,
-        y = 560,
+        x = 400,
+        y = 580,
         onClick = function() 
             space.playSignal = false
             space.playingSignal = false
@@ -190,22 +190,7 @@ local function loadWorld(game)
 end
 space.load = loadWorld
 
-local function listenUI()
-    freq1.draw = true
-    freq2.draw = true
-    freq3.draw = true
-    freq4.draw = true
-    freq1.active = true
-    freq2.active = true
-    freq3.active = true
-    freq4.active = true
-    play.draw = false
-    play.active = false
-    stop.draw = false
-    stop.active = false
-end
-
-local function processUI()
+local function hideUI() -- Hide all UI buttons
     freq1.draw = false
     freq2.draw = false
     freq3.draw = false
@@ -214,6 +199,26 @@ local function processUI()
     freq2.active = false
     freq3.active = false
     freq4.active = false
+    play.draw = false
+    play.active = false
+    stop.draw = false
+    stop.active = false
+end
+
+local function listenUI()
+    hideUI()
+    freq1.draw = true
+    freq2.draw = true
+    freq3.draw = true
+    freq4.draw = true
+    freq1.active = true
+    freq2.active = true
+    freq3.active = true
+    freq4.active = true
+end
+
+local function processUI()
+    hideUI()
     play.draw = true 
     play.active = true
     stop.draw = true 
@@ -273,6 +278,24 @@ local function drawSignalLine(signal, x, y)
         x + (space.sigStep * xSegment) - xSegment, y - 100)
 end
 
+local function drawStarPortrait(star)
+    love.graphics.setColor(0,0,0)
+    love.graphics.rectangle("fill", 25, 510, 100, 100)
+    love.graphics.setColor(star.color[1], star.color[2], star.color[3])
+    local x = 65
+    local y = 560
+    love.graphics.translate(x, y)
+    love.graphics.polygon("fill", star.portrait)
+    love.graphics.translate(-x, -y)
+    love.graphics.setColor(0.9,0.9,0.9)
+    love.graphics.print(star.name, 30, 610)
+end
+
+local function drawStarInfo(star)
+    love.graphics.setColor(0.9,0.9,0.9)
+    love.graphics.print("Distance: "..star.width.." light years", 140, 510)
+end
+
 local function updateWorld(dt, game)
     if space.mode == "search" then
         local move = "none"
@@ -321,7 +344,8 @@ local function drawWorld(game)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9, 0.9, 0.9)
         love.graphics.print("Choose frequency to listen on", 430, 510)
-        love.graphics.print(space.selectedStar.name, 30, 510)
+        drawStarPortrait(space.selectedStar)
+        drawStarInfo(space.selectedStar)
         uare.draw()
     elseif space.mode == "process" then 
         processUI()
@@ -330,13 +354,11 @@ local function drawWorld(game)
         local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
         love.graphics.setColor(0.9, 0.9, 0.9)
         if signal ~= nil then  
-            love.graphics.print(signal[space.sigStep], 430, 510)
-            love.graphics.print(space.signalTime, 430, 530)
-            love.graphics.print(space.sigStep, 430, 550)
             drawSignalLine(signal, 200, 630)
         else 
             love.graphics.print("No signal", 430, 510)
         end
+        drawStarPortrait(space.selectedStar)
         uare.draw()
     end
 end

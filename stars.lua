@@ -5,10 +5,10 @@ local Utils = require("utils")
 local signal = require("signals")
 
 local function makeDiamond(width, height)
-    local randPercent = 0.2
-    local w = math.random(width - (width * randPercent), width + (width * randPercent))
-    local h = math.random(height - (height * randPercent), height + (height * randPercent))
-    local poly = {
+    local w = width
+    local h = height
+    local poly = {}
+    poly = {
     0 - (w/2), 0,
     0, 0 - (h/2),
     0 + (w/2), 0,
@@ -18,18 +18,25 @@ local function makeDiamond(width, height)
 end
 
 local function addStar(name, x, y)
-    local height = 10
+    local height = 8
     local width = 6
+    local randPercent = 0.3
+    local starHeight=math.random(height - (height * randPercent), height + (height * randPercent))
+    local starWidth=math.random(width - (width * randPercent), width + (width * randPercent))
     table.insert(stars, {name=name, 
         points={x, y},
-        height=height,
-        width=width,
-        color={0.1, 0.1, 0.9},
-        shape=makeDiamond(width, height),
-        signals=signal.createRandomSignals()})
+        height=starHeight,
+        width=starWidth,
+        color={0.80,0.93,1.00},
+        shape=makeDiamond(starWidth, starHeight),
+        portrait=makeDiamond(starWidth * 6, starHeight * 6),
+        signals=signal.createRandomSignals(),
+        distance=math.random(4.5, 1500)
+    })
 end
 
 local function load()
+    math.randomseed(os.time())
     addStar("one", 180, 450)
     addStar("two", 110, 150)
     addStar("three", 180, 250)
