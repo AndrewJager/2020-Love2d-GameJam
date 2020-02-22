@@ -1,7 +1,8 @@
 
-
 local stars = {}
 stars.points = {}
+
+local Utils = require("utils")
 
 local function load()
     table.insert(stars.points, {180, 450})
@@ -43,11 +44,20 @@ local function starDrawPoint(star, rotToWidth, ship)
     return result
 end
 
+local showDistance = 15
 local function draw(game, ship)
     love.graphics.setColor(1,1,1)
+    local x = love.mouse.getX()
+    local y = love.mouse.getY()
     local points = stars.points
     for i = 1, #points do 
-        love.graphics.points(starDrawPoint(stars.points[i], game.threeSixtyToWidth, ship))
+        point = starDrawPoint(stars.points[i], game.threeSixtyToWidth, ship)
+        love.graphics.points(point)
+
+        if Utils.inRange(x, point[1] - showDistance, point[1] + showDistance) 
+        and Utils.inRange(y, point[2] - showDistance, point[2] + showDistance) then 
+            love.graphics.rectangle("line", point[1] - showDistance / 2, point[2] - showDistance / 2, showDistance, showDistance)
+        end
     end
 end
 stars.draw = draw 
