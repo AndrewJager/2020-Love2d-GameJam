@@ -53,9 +53,9 @@ end
 local function update(dt, game, space, ship, move)
     local amt = 0
     if move == "right" then 
-        amt = dt * ship.speed 
-    elseif move == "left" then 
         amt = dt * -ship.speed 
+    elseif move == "left" then 
+        amt = dt * ship.speed 
     end
     updateStars(stars, amt)
 end

@@ -2,7 +2,7 @@ local uare = require "Libraries/uare"
 
 local space = {}
 space.stars = require("stars")
-space.mode = "search" --search, listen, process
+space.mode = "search" --search, listen, process, send
 space.selectedStar = nil
 space.selectedFreq = nil -- nil, "A", "B", "C", "D"
 space.playSignal = false
@@ -167,12 +167,24 @@ local function loadWorld(game)
     }):style(btnExitStyle)
     play = uare.new({
         text = {
-        display = ""
+        display = "Play"
         },
         x = 50,
         y = 510,
         onClick = function() 
             space.playSignal = true
+        end
+    }):style(btnPlayStyle)
+    stop = uare.new({
+        text = {
+        display = "Stop"
+        },
+        x = 50,
+        y = 560,
+        onClick = function() 
+            space.playSignal = false
+            space.playingSignal = false
+            space.sigStep = 1
         end
     }):style(btnPlayStyle)
 end
@@ -189,6 +201,8 @@ local function listenUI()
     freq4.active = true
     play.draw = false
     play.active = false
+    stop.draw = false
+    stop.active = false
 end
 
 local function processUI()
@@ -202,6 +216,8 @@ local function processUI()
     freq4.active = false
     play.draw = true 
     play.active = true
+    stop.draw = true 
+    stop.active = true
 end
 
 local function updateSignal(dt)
@@ -239,6 +255,8 @@ local function drawSignalLine(signal, x, y)
     local xSegment = 20
     local yScale = 10
     love.graphics.setLineWidth(0.2)
+    love.graphics.setColor(0.1, 0.1, 0.1)
+    love.graphics.rectangle("line", x - 10, y - 110, 200, 115)
     love.graphics.setColor(0.0, 0.9, 0.0)
     love.graphics.line(x, signal[1] * -yScale + y,
         x + xSegment * 1, signal[2] * -yScale + y,
@@ -249,7 +267,10 @@ local function drawSignalLine(signal, x, y)
         x + xSegment * 6, signal[7] * -yScale + y,
         x + xSegment * 7, signal[8] * -yScale + y,
         x + xSegment * 8, signal[9] * -yScale + y,
-        x + xSegment * 9, signal[10] * -yScale + y)      
+        x + xSegment * 9, signal[10] * -yScale + y) 
+    love.graphics.setColor(0.9, 0.0, 0.0)   
+    love.graphics.line(x + (space.sigStep * xSegment) - xSegment, y,
+        x + (space.sigStep * xSegment) - xSegment, y - 100)
 end
 
 local function updateWorld(dt, game)
