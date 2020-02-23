@@ -286,12 +286,13 @@ local function load(game, space)
     }):style(btnCommentStyle)
     response2 = uare.new({
         text = {
-        display = "Comment 3"
+        display = "This is useless"
         },
         x = 30,
         y = 640,
         onClick = function() 
-
+            space.mode = "search"
+            space.mood = space.mood + 2
         end
     }):style(btnCommentStyle)
 

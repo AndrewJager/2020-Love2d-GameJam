@@ -1,6 +1,7 @@
 
 local story = require("story")
 local ui = require("spaceUI")
+local Utils = require("Utils")
 
 local space = {}
 space.stars = require("stars")
@@ -218,7 +219,7 @@ local function fovPoly(x, y)
     return poly 
 end
 
-local function drawShip()
+local function drawShip(game)
     love.graphics.setColor(0.0, 0.9, 0.0)
     love.graphics.setLineWidth(0.1)
     love.graphics.rectangle("line", 1000, 500, 150, 180)
@@ -238,10 +239,10 @@ local function drawShip()
     love.graphics.polygon('fill', fovPoly(0, 0))
     love.graphics.rotate(math.rad(-ship.angle))
     love.graphics.translate(-x, -y)
-end
 
-local function sendSignalAnim()
-
+    love.graphics.setColor(0.8,0.8,0.8)
+    love.graphics.setFont(game.textFontSmall)
+    love.graphics.print("Camera angle: "..Utils.round(ship.angle).."°", 1000, 682)
 end
 
 local function updateWorld(dt, game)
@@ -288,10 +289,9 @@ space.update = updateWorld
 local function drawWorld(game)
     love.graphics.setFont(game.textFont)
     love.graphics.setColor(0.95, 0.95, 0.95)
-    love.graphics.print(ship.angle, 10, 10)
     love.graphics.print(space.mood, 10, 40)
     space.stars.draw(game, space, ship)
-    drawShip()
+    drawShip(game)
 
     if space.mode == "listen" then
         listenUI()
@@ -321,6 +321,7 @@ local function drawWorld(game)
                 comment3.text.display = signal.comments[3]
             end
         else 
+            space.showComments = false
             space.isSignal = false
             love.graphics.print("No signal detected on this frequency", 230, 510)
         end
@@ -330,8 +331,13 @@ local function drawWorld(game)
         love.graphics.setColor(0.2, 0.2, 0.2)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9,0.9,0.9)
-        love.graphics.print(space.message[1], 120, 520)
-        love.graphics.print(space.message[2], 100, 570)
+        love.graphics.print(space.message[1], 80, 520)
+        if space.message[2] ~= nil then
+            love.graphics.print(space.message[2], 80, 535)
+        end
+        if space.message[3] ~= nil then
+            love.graphics.print(space.message[3], 80, 580)
+        end
         uare.draw()
     end
 end

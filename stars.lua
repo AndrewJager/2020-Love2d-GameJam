@@ -79,7 +79,27 @@ local function load()
     stars[3].signals.C.id="storyA"
     stars[3].signals.C.comments, stars[3].signals.C.commentWeights = signal.noiseComments()
 
-
+    table.insert(stars, {name="Dusk-646", 
+        points={245, 350},
+        height=10,
+        width=10,
+        color={0.80,0.93,1.00},
+        shape=makeDiamond(6, 14),
+        portrait=makeDiamond(6 * 2, 14 * 2),
+        signals={},
+        
+        distance=965
+    })  
+    table.insert(stars, {name="Solitude-624", 
+        points={134, 172},
+        height=6,
+        width=3,
+        color={0.80,0.93,1.00},
+        shape=makeDiamond(3, 6),
+        portrait=makeDiamond(3*2, 6*2),
+        signals={},
+        distance=89
+    })  
     addStar("Kelper-28", 180, 450)
     addStar("Feathers-61", 110, 150)
     addStar("Snow-975", 188, 250)
@@ -163,6 +183,8 @@ local function draw(game, space, ship)
                 love.graphics.setLineWidth(0.2)
                 love.graphics.setColor(0.95, 0.95, 0.95)
                 love.graphics.rectangle("line", point[1] - showDistance / 2, point[2] - showDistance / 2, showDistance, showDistance)
+                love.graphics.setFont(game.textFontSmall)
+                love.graphics.print(stars[i].name, point[1] - showDistance, point[2] + showDistance)
                 if love.mouse.isDown(1) then
                     space.selectedStar = stars[i]
                     space.mode = "listen"
