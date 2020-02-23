@@ -22,7 +22,7 @@ function love.load()
     love.window.setTitle("Lonely Skies")
     love.window.setMode(game.width, 700)
     math.randomseed(os.time())
-    menu.load()
+    menu.load(game)
 end
 
 function love.keypressed(key, unicode)
@@ -34,7 +34,7 @@ function love.update(dt)
         if game.level == "stars" then 
             space.load(game)
         elseif game.level == "menu" then 
-            menu.load()
+            menu.load(game)
         elseif game.level == "epilogue" then 
             epilogue.load(game)
         end

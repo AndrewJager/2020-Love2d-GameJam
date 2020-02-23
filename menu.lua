@@ -3,6 +3,7 @@ uare = require "Libraries/uare"
 
 menu.stars = {}
 menu.time = 0
+menu.time2 = 0
 menu.selectedStar = 5
 menu.starTime = 0.6
 menu.font = love.graphics.newFont("fonts/TradeWinds-regular.ttf", 120)
@@ -35,7 +36,10 @@ local function starDrawPoly(shape, point)
     return result
 end
 
-local function load()
+local function load(game)
+    menu.time = 0
+    menu.time2 = 0
+    game.keyDown = 0
     for i = 1, 100 do 
         table.insert(menu.stars,{math.random(0, 1200), math.random(0, 700)} )
     end
@@ -45,19 +49,20 @@ menu.load = load
 
 local function update(dt, game)
     menu.time = menu.time + dt
+    menu.time2 = menu.time2 + dt
     if menu.time > menu.starTime then 
         menu.selectedStar = math.random( 1, #menu.stars )
         menu.starTime = math.random( 0.6, 2.0 )
         menu.time = 0
     end
-    if game.keyDown > 0 then 
+    if (game.keyDown > 0) and (menu.time2 > 1) then 
         game.level = "stars"
     end
 
     for i = 1, #menu.stars do 
         menu.stars[i][1] = menu.stars[i][1] - 0.5
-        if menu.stars[i][1] < 0 then 
-            menu.stars[i][1] = 1200
+        if menu.stars[i][1] < -5 then 
+            menu.stars[i][1] = 1205
         end
     end
 end
@@ -70,6 +75,7 @@ local function draw()
         local drawThis = starDrawPoly(poly, {menu.stars[i][1], menu.stars[i][2]})
         love.graphics.polygon("fill", drawThis)
     end
+    love.graphics.setLineWidth(0.1)
     love.graphics.rectangle("line", menu.stars[menu.selectedStar][1] - 15 / 2, menu.stars[menu.selectedStar][2] - 15 / 2, 15, 15)
 
     love.graphics.setFont(menu.font)

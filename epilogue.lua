@@ -3,10 +3,12 @@ e.mood = 0
 e.time = 0
 e.creditsTime = 0
 e.textFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 18)
+e.titleFont = love.graphics.newFont("fonts/TradeWinds-regular.ttf", 80)
 e.varText = ""
 e.varText2 = ""
 e.varText3 = ""
 e.credits = false
+e.resetKeys = false
 local textTime = 1.5
 
 local function load(game)
@@ -18,29 +20,51 @@ local function load(game)
     elseif e.mood < 0 then 
         e.varText = "I suspect that you think that there's no one out there, that we've just been listening to our echos."
         e.varText2 = "That we're alone."
-        e.varText3 = "178 years till we possibly hear back. Maybe it doesn't matter. I'll be dead anyways."
+        e.varText3 = "178 years till we possibly hear back. Maybe it doesn't matter. I'll won't be here anyways."
     end
 end
 e.load = load 
 
 local function update(dt, game)
     e.time = e.time + dt
-    if game.keyDown > 0 and e.time > 14 then 
+    if game.keyDown > 0 and e.time > 0 then 
         e.credits = true
     end
     if e.credits then
         e.creditsTime = e.creditsTime + dt 
     end
+    if e.creditsTime > 4 and (not e.resetKeys) then
+        e.resetKeys = true
+        game.keyDown = 0
+    end
 end
 e.update = update 
 
 local function draw()
-    love.graphics.setFont(e.textFont)
+    
     if e.credits then 
         if e.creditsTime > textTime * 0.5 then
-            love.graphics.print("Thanks for playing!", 80, 120)
+            love.graphics.setFont(e.titleFont)
+            love.graphics.setColor(0.80,0.93,1.00)
+            love.graphics.print("Lonely Skies", 400, 20)
+        end
+        love.graphics.setFont(e.textFont)
+        love.graphics.setColor(0.9,0.9,0.9)
+        if e.creditsTime > textTime * 1.0 then
+            love.graphics.print("Created over 72 hours for Love Jam 2020", 180, 220)
+        end
+        if e.creditsTime > textTime * 2.0 then
+            love.graphics.print("d", 180, 260)
+        end
+        if e.creditsTime > textTime * 3.0 then
+            love.graphics.print("Ending shamelessly stolen from \"Ad Astra\"", 180, 300)
+        end
+        if e.creditsTime > textTime * 4.0 then
+            love.graphics.print("Thanks for playing!", 180, 340)
         end
     else
+        love.graphics.setColor(0.9,0.9,0.9)
+        love.graphics.setFont(e.textFont)
         if e.time > textTime * 1 then 
             love.graphics.print("We've sent the message. 89 light years away. Best case scenario, we get a response in 178 years.", 80, 100)
         end

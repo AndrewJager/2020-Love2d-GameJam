@@ -24,6 +24,7 @@ local function signalA(space)
     space.stars[3].signals.B.id="storyB"
     space.stars[3].signals.B.comments={"I think this is it!", "Probably just some interference", "Signal from Delta-702 - - - 7190 - 8450 frequency"}
     space.stars[3].signals.B.commentWeights={2, -2, 0}
+    space.hintCount = 0
     return result
 end
 
@@ -39,6 +40,7 @@ local function signalB(space)
     space.stars[4].signals.A.comments={"This is probably nothing, but check it anyways",
      "Here's the signal you're looking for", "I think this is it!"}
     space.stars[4].signals.A.commentWeights={-2, 1, 2}
+    space.hintCount = 0
     return result
 end
 
@@ -54,6 +56,7 @@ local function signalC(space)
     space.stars[5].signals.D.comments={"I don't think we're alone",
      "Signal from Solitude-624 - - - 31801 - 34700 frequency", "This whole endeavour is a waste of time"}
     space.stars[5].signals.D.commentWeights={4, 0, -4}
+    space.hintCount = 0
     return result
 end
 
@@ -66,6 +69,7 @@ local function signalD(space)
     space.stars[5].signals.D.comments={"We did it, didn't we?",
      "Nothing to be excited about, I'm sure this is just more noise", "This is certainly interesting"}
     space.stars[5].signals.D.commentWeights={2, -2, 0}
+    space.hintCount = 0
     return result
 end
 
@@ -75,6 +79,7 @@ local function signalE(space)
     result[2] = "signals is intelligent life. We belive this star is the best canidate for our message"
     result[3] = "Congratulations, this mission has been a success."
     space.goToE = true
+    space.hintCount = 0
     return result
 end
 
@@ -83,7 +88,7 @@ local function parseSignal(signal, space)
     if signal.id == "noise" then
         result = noiseSignal(space)
     elseif signal.id == "storyA" then
-        result = signalE(space)
+        result = signalA(space)
     elseif signal.id == "storyB" then 
         result = signalB(space)
     elseif signal.id == "storyC" then 
