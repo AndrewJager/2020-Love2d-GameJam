@@ -37,9 +37,42 @@ end
 
 local function load()
     math.randomseed(os.time())
-    addStar("one", 180, 450)
-    addStar("two", 110, 150)
-    addStar("three", 180, 250)
+    table.insert(stars, {name="Sun", 
+        points={300, 120},
+        height=80,
+        width=80,
+        color={1.00,0.98,0.60},
+        shape=makeDiamond(40, 40),
+        portrait=makeDiamond(40, 40),
+        signals={},
+        distance=0.2
+    })  
+    table.insert(stars, {name="Home", 
+        points={285, 135},
+        height=10,
+        width=10,
+        color={0.6,0.6,0.90},
+        shape=makeDiamond(5, 5),
+        portrait=makeDiamond(10, 10),
+        signals={},
+        distance=0.3
+    })    
+    addStar("Kelper-28", 180, 450)
+    addStar("Feathers-61", 110, 150)
+    addStar("Snow-975", 188, 250)
+    addStar("MI-481", 221, 61)
+    addStar("North-4681", 0, 450)
+    addStar("Zeus-343", 345, 104)
+    addStar("Osiris-74", 95, 145)
+    addStar("Osiris-76", 88, 190)
+    addStar("Osiris-77", 97, 175)
+    addStar("Osiris-90", 91, 201)
+    addStar("Cody-124", 61, 332)
+    addStar("Valentine-912", 27, 13)
+    addStar("Felis-1006", 41, 120)
+    addStar("Gray-2019", 156, 223)
+
+
 end
 stars.load = load
 

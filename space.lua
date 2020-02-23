@@ -19,7 +19,7 @@ space.isSignal = false
 local ship = {} --Space ship/probe data
 ship.angle = 180
 ship.speed = 35
-ship.fov = 180
+ship.fov = 90
 
 space.ship = ship
 space.story = story
@@ -202,7 +202,7 @@ end
 
 local function drawStarInfo(star)
     love.graphics.setColor(0.9,0.9,0.9)
-    love.graphics.print("Distance: "..star.width.." light years", 140, 510)
+    love.graphics.print("Distance: "..star.distance.." light years", 140, 510)
 end
 
 local function fovPoly(x, y)
