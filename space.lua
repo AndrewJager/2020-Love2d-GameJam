@@ -13,6 +13,8 @@ space.signalTime = 0 -- Used for timing signals
 space.sigStep = 1
 space.showComments = false
 space.selectedComment = nil
+space.message = ""
+space.isSignal = false
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -20,11 +22,13 @@ ship.speed = 35
 ship.fov = 180
 
 space.ship = ship
+space.story = story
 
 local toneA = love.audio.newSource("audio/tone1.mp3", "static")
 local toneB = love.audio.newSource("audio/tone2.mp3", "static")
 local toneC = love.audio.newSource("audio/tone3.mp3", "static")
 local toneD = love.audio.newSource("audio/tone4.mp3", "static")
+local panio = love.audio.newSource("audio/panio.mp3", "stream")
 
 local function loadWorld(game)
     ship.fovToView = 360 / ship.fov
@@ -54,6 +58,12 @@ local function hideUI() -- Hide all UI buttons
     comment2.active = false
     comment3.draw = false
     comment3.active = false
+    response1.draw = false
+    response1.active = false
+    response2.draw = false
+    response2.active = false
+    exit.draw = false
+    exit.active = false
 end
 
 local function listenUI()
@@ -66,16 +76,22 @@ local function listenUI()
     freq2.active = true
     freq3.active = true
     freq4.active = true
+    exit.draw = true
+    exit.active = true
 end
 
 local function processUI()
     hideUI()
-    play.draw = true 
-    play.active = true
-    stop.draw = true 
-    stop.active = true
-    send.draw = true
-    send.active = true
+    if space.isSignal then
+        play.draw = true 
+        play.active = true
+        stop.draw = true 
+        stop.active = true
+        send.draw = true
+        send.active = true
+    end
+    exit.draw = true
+    exit.active = true
     if space.showComments then 
         send.draw = false
         send.active = false
@@ -86,6 +102,14 @@ local function processUI()
         comment3.draw = true 
         comment3.active = true
     end
+end
+
+local function messageUI()
+    hideUI()
+    response1.draw = true
+    response1.active = true
+    response2.draw = true
+    response2.active = true
 end
 
 local function updateSignal(dt)
@@ -213,11 +237,15 @@ local function drawShip()
     love.graphics.translate(-x, -y)
 end
 
--- local function sendSignalAnim()
+local function sendSignalAnim()
 
--- end
+end
 
 local function updateWorld(dt, game)
+    if not panio:isPlaying() then 
+        panio:play()
+    end
+    
     if space.mode == "search" then
         local move = "none"
         if love.keyboard.isDown('right', 'd') then
@@ -247,12 +275,9 @@ local function updateWorld(dt, game)
             end
             updateSignal(dt)
         end
-
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
-    elseif space.mode == "send" then 
-        if sendSignalAnim(dt) then 
-            space.mode = "response"
-        end
+    elseif space.mode == "message" then  
+        uare.update(dt, love.mouse.getX(), love.mouse.getY())
     end
 end
 space.update = updateWorld
@@ -279,19 +304,28 @@ local function drawWorld(game)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
         love.graphics.setColor(0.9, 0.9, 0.9)
+        drawStarPortrait(space.selectedStar)
         if signal ~= nil then  
             drawSignalLine(signal, 200, 630)
+            space.isSignal = true
         else 
-            love.graphics.print("No signal", 430, 510)
+            space.isSignal = false
+            love.graphics.print("No signal detected on this frequency", 230, 510)
+            if space.showComments then 
+                love.graphics.setFont(game.textFontSmall)
+                love.graphics.print("Choose a comment to send with the signal"..signal.comments[1], 480, 510)
+                comment1.text.display = signal.comments[1]
+                comment2.text.display = signal.comments[2]
+                comment3.text.display = signal.comments[3]
+            end
         end
-        drawStarPortrait(space.selectedStar)
-        if space.showComments then 
-            love.graphics.setFont(game.textFontSmall)
-            love.graphics.print("Choose a comment to send with the signal"..signal.comments[1], 480, 510)
-            comment1.text.display = signal.comments[1]
-            comment2.text.display = signal.comments[2]
-            comment3.text.display = signal.comments[3]
-        end
+        uare.draw()
+    elseif space.mode == "message" then 
+        messageUI()
+        love.graphics.setColor(0.2, 0.2, 0.2)
+        love.graphics.rectangle("fill", 15, 500, 850, 185)
+        love.graphics.setColor(0.9,0.9,0.9)
+        love.graphics.print(space.message, 220, 520)
         uare.draw()
     end
 end

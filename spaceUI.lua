@@ -239,8 +239,9 @@ local function load(game, space)
         x = 460,
         y = 550,
         onClick = function() 
-            space.mode = "send"
+            space.mode = "message"
             space.selectedComment = "A"
+            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
         end
     }):style(btnCommentStyle)
     comment2 = uare.new({
@@ -250,7 +251,9 @@ local function load(game, space)
         x = 460,
         y = 590,
         onClick = function() 
-
+            space.mode = "message"
+            space.selectedComment = "A"
+            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
         end
     }):style(btnCommentStyle)
     comment3 = uare.new({
@@ -259,6 +262,28 @@ local function load(game, space)
         },
         x = 460,
         y = 630,
+        onClick = function() 
+            space.mode = "message"
+            space.selectedComment = "A"
+            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
+        end
+    }):style(btnCommentStyle)
+    response1 = uare.new({
+        text = {
+        display = "Understood"
+        },
+        x = 450,
+        y = 640,
+        onClick = function() 
+            space.mode = "search"
+        end
+    }):style(btnCommentStyle)
+    response2 = uare.new({
+        text = {
+        display = "Comment 3"
+        },
+        x = 30,
+        y = 640,
         onClick = function() 
 
         end
