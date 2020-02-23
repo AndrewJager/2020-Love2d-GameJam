@@ -58,6 +58,13 @@ local function update(dt, game)
     if keyDown > 0 then 
         game.level = "stars"
     end
+
+    for i = 1, #menu.stars do 
+        menu.stars[i][1] = menu.stars[i][1] - 0.5
+        if menu.stars[i][1] < 0 then 
+            menu.stars[i][1] = 1200
+        end
+    end
 end
 menu.update = update 
 

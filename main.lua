@@ -4,10 +4,11 @@ game.level = "menu"
 game.curLevel = "menu"
 game.width = 1200
 game.threeSixtyToWidth = game.width / 360
-game.btnFont = love.graphics.newFont(24)
-game.exitBtnFont = love.graphics.newFont(12)
-game.textFont = love.graphics.newFont(18)
-game.textFontSmall = love.graphics.newFont(12)
+game.btnFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 28)
+game.exitBtnFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 14)
+game.textFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 18)
+game.textFontSmall = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 12)
+game.commentFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 12)
 
 local space = require("space")
 local menu = require("menu")

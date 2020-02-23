@@ -129,7 +129,7 @@ local function load(game, space)
         color = {0.9, 0.9, 0.9},
         hoverColor = {0.9, 0.9, 0.9},
         holdColor = {0.9, 0, 0},
-        font = game.exitBtnFont,
+        font = game.commentFont,
         align = "center",
         offset = {
             x = 0,
@@ -278,21 +278,10 @@ local function load(game, space)
         text = {
         display = "Understood"
         },
-        x = 450,
+        x = 250,
         y = 640,
         onClick = function() 
             space.mode = "search"
-        end
-    }):style(btnCommentStyle)
-    response2 = uare.new({
-        text = {
-        display = "This is useless"
-        },
-        x = 30,
-        y = 640,
-        onClick = function() 
-            space.mode = "search"
-            space.mood = space.mood + 2
         end
     }):style(btnCommentStyle)
 

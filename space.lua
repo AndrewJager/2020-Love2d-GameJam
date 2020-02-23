@@ -64,8 +64,6 @@ local function hideUI() -- Hide all UI buttons
     comment3.active = false
     response1.draw = false
     response1.active = false
-    response2.draw = false
-    response2.active = false
     exit.draw = false
     exit.active = false
 end
@@ -112,8 +110,6 @@ local function messageUI()
     hideUI()
     response1.draw = true
     response1.active = true
-    response2.draw = true
-    response2.active = true
 end
 
 local function updateSignal(dt)
@@ -191,7 +187,7 @@ local function drawSignalLine(signal, x, y)
         x + (space.sigStep * xSegment) - xSegment, y - 100)
 end
 
-local function drawStarPortrait(star)
+local function drawStarPortrait(star, game)
     love.graphics.setColor(0,0,0)
     love.graphics.rectangle("fill", 25, 510, 100, 100)
     love.graphics.setColor(star.color[1], star.color[2], star.color[3])
@@ -201,6 +197,7 @@ local function drawStarPortrait(star)
     love.graphics.polygon("fill", star.portrait)
     love.graphics.translate(-x, -y)
     love.graphics.setColor(0.9,0.9,0.9)
+    love.graphics.setFont(game.textFont)
     love.graphics.print(star.name, 30, 610)
 end
 
@@ -298,8 +295,9 @@ local function drawWorld(game)
         love.graphics.setColor(0.2, 0.2, 0.2)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9, 0.9, 0.9)
+        love.graphics.setFont(game.textFont)
         love.graphics.print("Choose frequency to listen on", 430, 510)
-        drawStarPortrait(space.selectedStar)
+        drawStarPortrait(space.selectedStar, game)
         drawStarInfo(space.selectedStar)
         uare.draw()
     elseif space.mode == "process" then 
@@ -308,14 +306,14 @@ local function drawWorld(game)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
         love.graphics.setColor(0.9, 0.9, 0.9)
-        drawStarPortrait(space.selectedStar)
+        drawStarPortrait(space.selectedStar, game)
         if signal ~= nil then  
             drawSignalLine(signal, 200, 630)
             space.isSignal = true
             if space.showComments then 
-                love.graphics.setFont(game.textFontSmall)
+                love.graphics.setFont(game.textFont)
                 love.graphics.setColor(0.9,0.9,0.9)
-                love.graphics.print("Choose a comment to send with the signal", 480, 510)
+                love.graphics.print("What is your opinion?", 480, 510)
                 comment1.text.display = signal.comments[1]
                 comment2.text.display = signal.comments[2]
                 comment3.text.display = signal.comments[3]
@@ -323,6 +321,7 @@ local function drawWorld(game)
         else 
             space.showComments = false
             space.isSignal = false
+            love.graphics.setFont(game.textFont)
             love.graphics.print("No signal detected on this frequency", 230, 510)
         end
         uare.draw()
@@ -331,6 +330,7 @@ local function drawWorld(game)
         love.graphics.setColor(0.2, 0.2, 0.2)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9,0.9,0.9)
+        love.graphics.setFont(game.textFont)
         love.graphics.print(space.message[1], 80, 520)
         if space.message[2] ~= nil then
             love.graphics.print(space.message[2], 80, 535)
