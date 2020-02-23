@@ -8,8 +8,6 @@ menu.starTime = 0.6
 menu.font = love.graphics.newFont("fonts/TradeWinds-regular.ttf", 120)
 menu.fontSmall = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 24)
 
-local keyDown = 0
-
 local function makeDiamond(width, height)
     local w = width
     local h = height
@@ -44,9 +42,6 @@ local function load()
 end
 menu.load = load 
 
-function love.keypressed(key, unicode)
-    keyDown = keyDown + 1
-end
 
 local function update(dt, game)
     menu.time = menu.time + dt
@@ -55,7 +50,7 @@ local function update(dt, game)
         menu.starTime = math.random( 0.6, 2.0 )
         menu.time = 0
     end
-    if keyDown > 0 then 
+    if game.keyDown > 0 then 
         game.level = "stars"
     end
 

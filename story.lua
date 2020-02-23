@@ -74,7 +74,7 @@ local function signalE(space)
     result[1] = "While it's impossible to prove, we believe that the best explination for these"
     result[2] = "signals is intelligent life. We belive this star is the best canidate for our message"
     result[3] = "Congratulations, this mission has been a success."
-    space.mode = "epilogue"
+    space.goToE = true
     return result
 end
 
@@ -83,7 +83,7 @@ local function parseSignal(signal, space)
     if signal.id == "noise" then
         result = noiseSignal(space)
     elseif signal.id == "storyA" then
-        result = signalA(space)
+        result = signalE(space)
     elseif signal.id == "storyB" then 
         result = signalB(space)
     elseif signal.id == "storyC" then 

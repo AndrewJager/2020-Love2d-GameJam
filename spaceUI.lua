@@ -281,7 +281,12 @@ local function load(game, space)
         x = 250,
         y = 640,
         onClick = function() 
-            space.mode = "search"
+            if space.goToE then 
+                game.mood = space.mood
+                game.level = "epilogue"
+            else 
+                space.mode = "search"
+            end
         end
     }):style(btnCommentStyle)
 

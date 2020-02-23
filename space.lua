@@ -19,6 +19,7 @@ space.isSignal = false
 space.hintStar = "Delta-702"
 space.hintCount = 0
 space.mood = 0
+space.goToE = false
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -32,7 +33,6 @@ local toneA = love.audio.newSource("audio/tone1.mp3", "static")
 local toneB = love.audio.newSource("audio/tone2.mp3", "static")
 local toneC = love.audio.newSource("audio/tone3.mp3", "static")
 local toneD = love.audio.newSource("audio/tone4.mp3", "static")
-local panio = love.audio.newSource("audio/panio.mp3", "stream")
 
 local function loadWorld(game)
     ship.fovToView = 360 / ship.fov
@@ -243,10 +243,6 @@ local function drawShip(game)
 end
 
 local function updateWorld(dt, game)
-    if not panio:isPlaying() then 
-        panio:play()
-    end
-    
     if space.mode == "search" then
         local move = "none"
         if love.keyboard.isDown('right', 'd') then
