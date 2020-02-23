@@ -15,6 +15,9 @@ space.showComments = false
 space.selectedComment = nil
 space.message = ""
 space.isSignal = false
+space.hintStar = "Delta-702"
+space.hintCount = 0
+space.mood = 0
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -286,6 +289,7 @@ local function drawWorld(game)
     love.graphics.setFont(game.textFont)
     love.graphics.setColor(0.95, 0.95, 0.95)
     love.graphics.print(ship.angle, 10, 10)
+    love.graphics.print(space.mood, 10, 40)
     space.stars.draw(game, space, ship)
     drawShip()
 
@@ -308,16 +312,17 @@ local function drawWorld(game)
         if signal ~= nil then  
             drawSignalLine(signal, 200, 630)
             space.isSignal = true
-        else 
-            space.isSignal = false
-            love.graphics.print("No signal detected on this frequency", 230, 510)
             if space.showComments then 
                 love.graphics.setFont(game.textFontSmall)
-                love.graphics.print("Choose a comment to send with the signal"..signal.comments[1], 480, 510)
+                love.graphics.setColor(0.9,0.9,0.9)
+                love.graphics.print("Choose a comment to send with the signal", 480, 510)
                 comment1.text.display = signal.comments[1]
                 comment2.text.display = signal.comments[2]
                 comment3.text.display = signal.comments[3]
             end
+        else 
+            space.isSignal = false
+            love.graphics.print("No signal detected on this frequency", 230, 510)
         end
         uare.draw()
     elseif space.mode == "message" then 
@@ -325,7 +330,8 @@ local function drawWorld(game)
         love.graphics.setColor(0.2, 0.2, 0.2)
         love.graphics.rectangle("fill", 15, 500, 850, 185)
         love.graphics.setColor(0.9,0.9,0.9)
-        love.graphics.print(space.message, 220, 520)
+        love.graphics.print(space.message[1], 120, 520)
+        love.graphics.print(space.message[2], 100, 570)
         uare.draw()
     end
 end

@@ -35,6 +35,13 @@ local function addStar(name, x, y)
     })
 end
 
+local function createNoise()
+    math.random(0, 10)
+    return {math.random(0, 10), math.random(0, 10), math.random(0, 10), math.random(0, 10),
+    math.random(0, 10), math.random(0, 10), math.random(0, 10), math.random(0, 10),
+    math.random(0, 10), math.random(0, 10)}
+end
+
 local function load()
     math.randomseed(os.time())
     table.insert(stars, {name="Sun", 
@@ -56,7 +63,23 @@ local function load()
         portrait=makeDiamond(10, 10),
         signals={},
         distance=0.3
-    })    
+    })   
+    table.insert(stars, {name="Delta-702", 
+        points={92, 79},
+        height=10,
+        width=10,
+        color={0.80,0.93,1.00},
+        shape=makeDiamond(10, 14),
+        portrait=makeDiamond(10, 10),
+        signals={C=
+            {0,8,8,0,0,0,0,8,8,0},
+        },
+        distance=4.68
+    })  
+    stars[3].signals.C.id="storyA"
+    stars[3].signals.C.comments, stars[3].signals.C.commentWeights = signal.noiseComments()
+
+
     addStar("Kelper-28", 180, 450)
     addStar("Feathers-61", 110, 150)
     addStar("Snow-975", 188, 250)

@@ -239,9 +239,11 @@ local function load(game, space)
         x = 460,
         y = 550,
         onClick = function() 
+            local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
             space.mode = "message"
             space.selectedComment = "A"
-            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
+            space.message = space.story.parseSignal(signal, space)
+            space.mood = space.mood + signal.commentWeights[1]
         end
     }):style(btnCommentStyle)
     comment2 = uare.new({
@@ -251,9 +253,11 @@ local function load(game, space)
         x = 460,
         y = 590,
         onClick = function() 
+            local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
             space.mode = "message"
-            space.selectedComment = "A"
-            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
+            space.selectedComment = "B"
+            space.message = space.story.parseSignal(signal, space)
+            space.mood = space.mood + signal.commentWeights[2]
         end
     }):style(btnCommentStyle)
     comment3 = uare.new({
@@ -263,9 +267,11 @@ local function load(game, space)
         x = 460,
         y = 630,
         onClick = function() 
+            local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
             space.mode = "message"
-            space.selectedComment = "A"
-            space.message = space.story.parseSignal(space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq))
+            space.selectedComment = "C"
+            space.message = space.story.parseSignal(signal, space)
+            space.mood = space.mood + signal.commentWeights[3]
         end
     }):style(btnCommentStyle)
     response1 = uare.new({
