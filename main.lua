@@ -17,6 +17,7 @@ local music = love.audio.newSource("audio/panio.mp3", "stream")
 local space = require("space")
 local menu = require("menu")
 local epilogue = require("epilogue")
+local prologue = require("prologue")
 
 function love.load()
     love.window.setTitle("Lonely Skies")
@@ -37,6 +38,8 @@ function love.update(dt)
             menu.load(game)
         elseif game.level == "epilogue" then 
             epilogue.load(game)
+        elseif game.level == "prologue" then
+            prologue.load(game)
         end
         game.curLevel = game.level
     end
@@ -46,6 +49,8 @@ function love.update(dt)
         menu.update(dt, game)
     elseif game.level == "epilogue" then 
         epilogue.update(dt, game)
+    elseif game.level == "prologue" then
+        prologue.update(dt, game)
     end
 
     if not music:isPlaying() then 
@@ -60,5 +65,7 @@ function love.draw()
         menu.draw()
     elseif game.level == "epilogue" then 
         epilogue.draw()
+    elseif game.level == "prologue" then 
+        prologue.draw()
     end
 end

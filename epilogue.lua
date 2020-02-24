@@ -51,7 +51,7 @@ local function draw()
         love.graphics.setFont(e.textFont)
         love.graphics.setColor(0.9,0.9,0.9)
         if e.creditsTime > textTime * 1.0 then
-            love.graphics.print("Created over 72 hours for Love Jam 2020", 180, 220)
+            love.graphics.print("Created over 72 hours for LÖVE Jam 2020", 180, 220)
         end
         if e.creditsTime > textTime * 2.0 then
             love.graphics.print("d", 180, 260)

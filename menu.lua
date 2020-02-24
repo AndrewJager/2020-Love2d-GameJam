@@ -40,7 +40,7 @@ local function load(game)
     menu.time = 0
     menu.time2 = 0
     game.keyDown = 0
-    for i = 1, 100 do 
+    for i = 1, 50 do 
         table.insert(menu.stars,{math.random(0, 1200), math.random(0, 700)} )
     end
 end

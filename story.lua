@@ -32,7 +32,7 @@ local function signalB(space)
     local result = {}
     result[1] = "Our scientists have analyised the signals you recieved from this star, unfortunately," 
     result[2] = "they have concluded that this is just our signals bouncing off of space debris."
-    result[3] = "Please continue your search."
+    result[3] = "Please continue your search elsewhere."
     space.stars[3].signals.B = nil
     space.hintStar = "Dusk-646"
     space.stars[4].signals.A = {8,7,6,5,4,5,6,7,8,7}
@@ -48,7 +48,7 @@ local function signalC(space)
     local result = {}
     result[1] = "While this signal is interesting due to it's non-randomness, we still believe it "
     result[2] = "to be of natural origin."
-    result[3] = "Please continue your search"
+    result[3] = "Please continue your search elsewhere."
     space.stars[4].signals.A = nil 
     space.hintStar = "Solitude-624"
     space.stars[5].signals.D = {4,5,5,6,7,7,6,5,5,4}

@@ -240,7 +240,7 @@ local function load(game, space)
         y = 550,
         onClick = function() 
             local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
-            space.mode = "message"
+            space.mode = "analyseMessage"
             space.selectedComment = "A"
             space.message = space.story.parseSignal(signal, space)
             space.mood = space.mood + signal.commentWeights[1]
@@ -254,7 +254,7 @@ local function load(game, space)
         y = 590,
         onClick = function() 
             local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
-            space.mode = "message"
+            space.mode = "analyseMessage"
             space.selectedComment = "B"
             space.message = space.story.parseSignal(signal, space)
             space.mood = space.mood + signal.commentWeights[2]
@@ -268,7 +268,7 @@ local function load(game, space)
         y = 630,
         onClick = function() 
             local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
-            space.mode = "message"
+            space.mode = "analyseMessage"
             space.selectedComment = "C"
             space.message = space.story.parseSignal(signal, space)
             space.mood = space.mood + signal.commentWeights[3]
@@ -289,6 +289,16 @@ local function load(game, space)
             end
         end
     }):style(btnCommentStyle)
+    back = uare.new({
+        text = {
+        display = "Back"
+        },
+        x = 680,
+        y = 510,
+        onClick = function() 
+            space.mode = "listen"
+        end
+    }):style(btnExitStyle)
 
 end
 ui.load = load 

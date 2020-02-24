@@ -20,6 +20,8 @@ space.hintStar = "Delta-702"
 space.hintCount = 0
 space.mood = 0
 space.goToE = false
+space.analyseBool = false
+space.analyseTime = 0
 
 local ship = {} --Space ship/probe data
 ship.angle = 180
@@ -38,6 +40,7 @@ local function loadWorld(game)
     ship.fovToView = 360 / ship.fov
     space.stars.load()
     ui.load(game, space)
+    space.line = {50, 600, 400, 650}
 end
 space.load = loadWorld
 
@@ -66,6 +69,8 @@ local function hideUI() -- Hide all UI buttons
     response1.active = false
     exit.draw = false
     exit.active = false
+    back.draw = false
+    back.active = false
 end
 
 local function listenUI()
@@ -91,6 +96,9 @@ local function processUI()
         stop.active = true
         send.draw = true
         send.active = true
+    else 
+        back.draw = true
+        back.active = true
     end
     exit.draw = true
     exit.active = true
@@ -275,14 +283,25 @@ local function updateWorld(dt, game)
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
     elseif space.mode == "message" then  
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
+    elseif space.mode == "analyseMessage" then 
+        if not space.analyseBool then
+            space.analyseBool = true
+            space.analyseTime = 0
+        end
+        space.analyseTime = space.analyseTime + dt 
+        space.line[2] = space.line[2] + dt * 60
+        space.line[4] = space.line[4] + dt * 60 
+        if space.line[2] > 660 then space.line[2] = 600 end
+        if space.line[4] > 660 then space.line[4] = 600 end
+        if space.analyseTime > 1.5 then 
+            space.analyseBool = false 
+            space.mode = "message"
+        end
     end
 end
 space.update = updateWorld
 
 local function drawWorld(game)
-    love.graphics.setFont(game.textFont)
-    love.graphics.setColor(0.95, 0.95, 0.95)
-    love.graphics.print(space.mood, 10, 40)
     space.stars.draw(game, space, ship)
     drawShip(game)
 
@@ -335,6 +354,15 @@ local function drawWorld(game)
             love.graphics.print(space.message[3], 80, 580)
         end
         uare.draw()
+    elseif space.mode == "analyseMessage" then
+        love.graphics.setColor(0.2, 0.2, 0.2)
+        love.graphics.rectangle("fill", 15, 500, 850, 185)
+        love.graphics.setColor(0.9,0.9,0.9)
+        love.graphics.setFont(game.textFont)
+        love.graphics.print("Mission control is analysing this signal. Please wait", 80, 520)
+        love.graphics.setColor(0,0.8,0)
+        love.graphics.setLineWidth(1.5)
+        love.graphics.line(space.line[1], space.line[2], space.line[3], space.line[4])
     end
 end
 space.draw = drawWorld
