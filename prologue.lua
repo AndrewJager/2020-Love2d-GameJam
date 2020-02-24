@@ -1,7 +1,7 @@
 local prologue = {}
 prologue.time = 0
-prologue.textFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 18)
-prologue.helpFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 14)
+prologue.textFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 18)
+prologue.helpFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 14)
 
 local function load(game)
     prologue.time = 0

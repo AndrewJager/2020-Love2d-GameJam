@@ -6,8 +6,8 @@ menu.time = 0
 menu.time2 = 0
 menu.selectedStar = 5
 menu.starTime = 0.6
-menu.font = love.graphics.newFont("fonts/TradeWinds-regular.ttf", 120)
-menu.fontSmall = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 24)
+menu.font = love.graphics.newFont("fonts/TradeWinds-Regular.ttf", 120)
+menu.fontSmall = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 24)
 
 local function makeDiamond(width, height)
     local w = width

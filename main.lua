@@ -4,11 +4,11 @@ game.level = "menu"
 game.curLevel = "menu"
 game.width = 1200
 game.threeSixtyToWidth = game.width / 360
-game.btnFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 28)
-game.exitBtnFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 14)
-game.textFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 18)
-game.textFontSmall = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 12)
-game.commentFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 12)
+game.btnFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 28)
+game.exitBtnFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 14)
+game.textFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 18)
+game.textFontSmall = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 12)
+game.commentFont = love.graphics.newFont("fonts/Inconsolata-Regular.ttf", 12)
 game.mood = 0
 game.keyDown = 0
 
