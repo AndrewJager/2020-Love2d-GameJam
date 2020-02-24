@@ -1,5 +1,4 @@
 local menu = {}
-uare = require "Libraries/uare"
 
 menu.stars = {}
 menu.time = 0

@@ -1,4 +1,4 @@
-uare = require "Libraries/uare"
+uare = require "libraries/uare"
 
 ui = {}
 local function load(game, space)

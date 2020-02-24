@@ -18,7 +18,7 @@ signal.noiseComments = noiseComments
 local function createRandomSignals()
     local signals = {}
     local choice = math.random(0, 100)
-    if choice > 0 then
+    if choice > 60 then
         signals.A = createNoise()
         signals.A.comments, signals.A.commentWeights = noiseComments()
         signals.A.id = "noise"

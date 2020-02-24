@@ -1,7 +1,7 @@
 
 local story = require("story")
 local ui = require("spaceUI")
-local Utils = require("Utils")
+local Utils = require("utils")
 
 local space = {}
 space.stars = require("stars")
