@@ -17,7 +17,7 @@ end
 
 local function signalA(space)
     local result = {}
-    result[1] = "This is interesting." 
+    result[1] = "We find this signal very interesting." 
     result[2] = "See if there's anything on the 7190 - 8450 frequency"
     space.stars[3].signals.C = nil
     space.stars[3].signals.B = {4,0,4,0,4,0,4,0,4,0}
@@ -30,7 +30,7 @@ end
 
 local function signalB(space)
     local result = {}
-    result[1] = "Our scientists have analyised the signals you recieved from this star, unfortunately," 
+    result[1] = "Our scientists have analyised the signals you recieved from this star. Unfortunately," 
     result[2] = "they have concluded that this is just our signals bouncing off of space debris."
     result[3] = "Please continue your search elsewhere."
     space.stars[3].signals.B = nil

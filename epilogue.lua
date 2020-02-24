@@ -3,6 +3,7 @@ e.mood = 0
 e.time = 0
 e.creditsTime = 0
 e.textFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 18)
+e.smallFont = love.graphics.newFont("fonts/Inconsolata-regular.ttf", 12)
 e.titleFont = love.graphics.newFont("fonts/TradeWinds-regular.ttf", 80)
 e.varText = ""
 e.varText2 = ""
@@ -33,7 +34,7 @@ local function update(dt, game)
     if e.credits then
         e.creditsTime = e.creditsTime + dt 
     end
-    if e.creditsTime > 4 and (not e.resetKeys) then
+    if e.creditsTime > 5 and (not e.resetKeys) then
         e.resetKeys = true
         game.keyDown = 0
     end
@@ -46,7 +47,7 @@ local function draw()
         if e.creditsTime > textTime * 0.5 then
             love.graphics.setFont(e.titleFont)
             love.graphics.setColor(0.80,0.93,1.00)
-            love.graphics.print("Lonely Skies", 400, 20)
+            love.graphics.print("Lonely Skies", 350, 20)
         end
         love.graphics.setFont(e.textFont)
         love.graphics.setColor(0.9,0.9,0.9)
@@ -54,13 +55,16 @@ local function draw()
             love.graphics.print("Created over 72 hours for LÖVE Jam 2020", 180, 220)
         end
         if e.creditsTime > textTime * 2.0 then
-            love.graphics.print("d", 180, 260)
+            love.graphics.print("Music: The paino that no one in my family can play", 180, 260)
         end
         if e.creditsTime > textTime * 3.0 then
-            love.graphics.print("Ending shamelessly stolen from \"Ad Astra\"", 180, 300)
+            love.graphics.print("Audio: Audacity tone generator", 180, 300)
         end
         if e.creditsTime > textTime * 4.0 then
-            love.graphics.print("Thanks for playing!", 180, 340)
+            love.graphics.print("Ending shamelessly stolen from \"Ad Astra\"", 180, 340)
+        end
+        if e.creditsTime > textTime * 5.0 then
+            love.graphics.print("Thanks for playing!", 180, 380)
         end
     else
         love.graphics.setColor(0.9,0.9,0.9)
@@ -88,6 +92,10 @@ local function draw()
         end
         if e.time > textTime * 11.5 then 
             love.graphics.print("End transmission", 550, 650)
+        end
+        if e.time > textTime * 12.5 then 
+            love.graphics.setFont(e.smallFont)
+            love.graphics.print("(press any key)", 550, 670)
         end
     end
 end

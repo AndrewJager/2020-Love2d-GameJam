@@ -62,19 +62,19 @@ local function load(game, space)
         --color
         color = {0.30,0.30,0.30},
         hoverColor = {0.10,0.10,0.10},
-        holdColor = {0.066, 0.047, 0.152},
+        holdColor = {0.30,0.30,0.30},
         --border
         border = {
         color = {0.0,0.0,0.0},
         hoverColor = {0.0,0.0,0.0},
-        holdColor = {0.031, 0.349, 0.090},
+        holdColor = {0.0,0.0,0.0},
         size = 5
         },
         --text
         text = {
         color = {0.9, 0.9, 0.9},
         hoverColor = {0.9, 0.9, 0.9},
-        holdColor = {0.9, 0, 0},
+        holdColor = {0.9, 0.9, 0.9},
         font = game.exitBtnFont,
         align = "center",
         offset = {
@@ -87,8 +87,8 @@ local function load(game, space)
         width = 250,
         height = 50,
         --color
-        color = {0.00,0.82,0.08},
-        hoverColor = {0.00,0.62,0.08},
+        color = {0.00,0.62,0.08},
+        hoverColor = {0.00,0.52,0.08},
         holdColor = {0.066, 0.047, 0.152},
         --border
         border = {

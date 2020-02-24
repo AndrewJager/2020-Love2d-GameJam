@@ -70,7 +70,7 @@ local function load()
         width=10,
         color={0.80,0.93,1.00},
         shape=makeDiamond(10, 14),
-        portrait=makeDiamond(10, 10),
+        portrait=makeDiamond(10 * 3, 14 * 3),
         signals={C=
             {0,8,8,0,0,0,0,8,8,0},
         },

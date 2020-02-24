@@ -56,7 +56,7 @@ local function update(dt, game)
         menu.time = 0
     end
     if (game.keyDown > 0) and (menu.time2 > 1) then 
-        game.level = "stars"
+        game.level = "prologue"
     end
 
     for i = 1, #menu.stars do 
