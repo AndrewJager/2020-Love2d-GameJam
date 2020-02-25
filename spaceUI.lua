@@ -230,6 +230,7 @@ local function load(game, space)
         y = 510,
         onClick = function() 
             space.showComments = true
+            space.playSignal = false
         end
     }):style(btnSendStyle)
     comment1 = uare.new({

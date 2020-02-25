@@ -273,6 +273,11 @@ local function updateWorld(dt, game)
     elseif space.mode == "listen" then 
         uare.update(dt, love.mouse.getX(), love.mouse.getY())
     elseif space.mode == "process" then
+        local signal = space.stars.getSelectedSignal(space.selectedStar, space.selectedFreq)
+        if signal == nil then 
+            space.playSignal = false 
+            space.sigStep = 1
+        end
         if space.playSignal then 
             if not space.playingSignal then 
                 space.signalTime = 0
